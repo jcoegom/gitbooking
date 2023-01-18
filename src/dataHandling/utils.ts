@@ -32,48 +32,12 @@ class AppsByHost {
       //recorre todas las app.
       for (let host of dataAppItem.host) {
         //Recorre los host de cada app
-        if (!resultDataByHost[host]) {
-          resultDataByHost[host] = { appsSorted: [], apps: [] };
-        } else {
-          //Ya hay applicaciones ordenadas en el host
-          let sortedLenght = resultDataByHost[host].appsSorted.length;
-          if (
-            sortedLenght === numSortedRegToReturn &&
-            resultDataByHost[host].appsSorted[sortedLenght - 1].apdex >
-              dataAppItem.apdex
-          ) {
-            resultDataByHost[host].apps.push(dataAppItem);
-            continue;
-          } else if (
-            resultDataByHost[host].appsSorted.length === numSortedRegToReturn &&
-            resultDataByHost[host].appsSorted[sortedLenght - 1].apdex <
-              dataAppItem.apdex
-          ) {
-            let indexToInsert = this.getIndexToInsert(
-              resultDataByHost[host].appsSorted,
-              dataAppItem,
-              "apdex"
-            );
-            resultDataByHost[host].appsSorted = this.insertDataInIndex(
-              resultDataByHost[host].appsSorted,
-              dataAppItem,
-              indexToInsert
-            ) as AppsType[];
-            let dataPop = resultDataByHost[host].appsSorted.pop();
-            if (dataPop) resultDataByHost[host].apps.push(dataPop);
-          } else {
-            let indexToInsert = this.getIndexToInsert(
-              resultDataByHost[host].appsSorted,
-              dataAppItem,
-              "apdex"
-            );
-            resultDataByHost[host].appsSorted = this.insertDataInIndex(
-              resultDataByHost[host].appsSorted,
-              dataAppItem,
-              indexToInsert
-            ) as AppsType[];
-          }
-        }
+        resultDataByHost = this.insertAppHostSorted(
+          resultDataByHost,
+          dataAppItem,
+          host,
+          numSortedRegToReturn
+        );
       }
     }
 
@@ -107,8 +71,54 @@ class AppsByHost {
     return left;
   }
 
-  protected insertAppHostSorted(dataByHost: ByHostDataType, hostname: string) {
-    return;
+  protected insertAppHostSorted(
+    dataByHost: ByHostDataType,
+    dataToInsert: AppsType,
+    hostname: string,
+    numSortedRegToReturn: number
+  ): ByHostDataType {
+    if (!dataByHost[hostname]) {
+      dataByHost[hostname] = { appsSorted: [], apps: [] };
+    } else {
+      //Ya hay applicaciones ordenadas en el host
+      let sortedLenght = dataByHost[hostname].appsSorted.length;
+      if (
+        sortedLenght === numSortedRegToReturn &&
+        dataByHost[hostname].appsSorted[sortedLenght - 1].apdex >
+          dataToInsert.apdex
+      ) {
+        dataByHost[hostname].apps.push(dataToInsert);
+      } else if (
+        dataByHost[hostname].appsSorted.length === numSortedRegToReturn &&
+        dataByHost[hostname].appsSorted[sortedLenght - 1].apdex <
+          dataToInsert.apdex
+      ) {
+        let indexToInsert = this.getIndexToInsert(
+          dataByHost[hostname].appsSorted,
+          dataToInsert,
+          "apdex"
+        );
+        dataByHost[hostname].appsSorted = this.insertDataInIndex(
+          dataByHost[hostname].appsSorted,
+          dataToInsert,
+          indexToInsert
+        ) as AppsType[];
+        let dataPop = dataByHost[hostname].appsSorted.pop();
+        if (dataPop) dataByHost[hostname].apps.push(dataPop);
+      } else {
+        let indexToInsert = this.getIndexToInsert(
+          dataByHost[hostname].appsSorted,
+          dataToInsert,
+          "apdex"
+        );
+        dataByHost[hostname].appsSorted = this.insertDataInIndex(
+          dataByHost[hostname].appsSorted,
+          dataToInsert,
+          indexToInsert
+        ) as AppsType[];
+      }
+    }
+    return dataByHost;
   }
 
   private insertDataInIndex(
@@ -126,29 +136,46 @@ class AppsByHost {
     let result: AppsType[] = [...this.dataByHostSorted[hostname].appsSorted];
     return result;
   }
-}
 
-/* const myObj = new AppsByHost("hello", 5);
- myObj.myFunction(); */
-
-/* const getTopAppsByHost = (dataByApp: ByAppDataType[], hostname: string) => {
-  let dataByHost: ByHostDataType = { host: hostname, apps: [] };
-
- for (let dataByAppItem of dataByApp) {
-    //Check if data includes hostname
-    if (dataByAppItem.host.includes(hostname)) {
-      //sort by apdex
-      if (dataByHost.apps?.length === 0) {
-        dataByHost.apps = [dataByAppItem];
-        continue; //Next Loop cycle
-      } else {
-        let hostAppSize = dataByHost.apps.length;
-        let { host, ...restDataByApp } = dataByAppItem; //TODO: Inside IF
-        if (dataByAppItem.apdex >= dataByHost.apps[0].apdex) {
-          dataByHost.apps = [...dataByHost.apps, restDataByApp];
-        } else if (dataByAppItem.apdex <= dataByHost.apps[0].apdex) {
-        }
+  public addAppToHosts(appToAdd: AppsType, hostname: string): AppsType[] {
+    this.dataByHostSorted = this.insertAppHostSorted(
+      this.dataByHostSorted,
+      appToAdd,
+      hostname,
+      this.numSortedRegToReturn
+    );
+    return this.dataByHostSorted[hostname].appsSorted;
+  }
+  public removeAppFromHosts(appName: string, hostname: string) {
+    let apps = [...this.dataByHostSorted[hostname].apps];
+    let appsSorted = [...this.dataByHostSorted[hostname].apps];
+    let indexToRemove = -1;
+    let appMaxValue: AppsType | null = apps[0];
+    for (let i = 0; i < apps.length; i++) {
+      if (apps[i].name === appName) {
+        indexToRemove = i;
+      }
+      if (apps[i].apdex > appMaxValue.apdex) {
+        appMaxValue = { ...apps[i] };
       }
     }
+    if (indexToRemove !== -1) {
+      //element Found
+      apps.splice(indexToRemove, 1);
+      this.dataByHostSorted[hostname].apps = apps;
+      return;
+    }
+
+    for (let i = 0; i < appsSorted.length; i++) {
+      if (appsSorted[i].name === appName) {
+        indexToRemove = i;
+        break;
+      }
+    }
+    if (indexToRemove !== -1) {
+      appsSorted.splice(indexToRemove, 1);
+      appsSorted.push(appMaxValue);
+      this.dataByHostSorted[hostname].appsSorted = appsSorted;
+    }
   }
-}; */
+}
