@@ -7,9 +7,7 @@ export type ByAppDataType = {
 };
 
 export type ByHostDataType = {
-  host: string;
-  appsSorted: Omit<ByAppDataType, "host">[];
-  apps: AppsType[];
+  [key: string]: { appsSorted: AppsType[]; apps: AppsType[] };
 };
 
 export type AppsType = Omit<ByAppDataType, "host">;

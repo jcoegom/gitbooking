@@ -7,14 +7,77 @@ import {
 
 class AppsByHost {
   private dataByApp: ByAppDataType[];
-  private dataByHost: ByHostDataType[];
-  private NUM_SORTED_REG_TO_RETURN = 25;
+  private dataByHostSorted: ByHostDataType;
+  private numSortedRegToReturn = 25;
 
   constructor(
     _dataByApp: ByAppDataType[],
+    _numSortedRegToReturn: number,
     { transformData = true }: { transformData: boolean }
   ) {
+    this.numSortedRegToReturn = _numSortedRegToReturn;
     this.dataByApp = _dataByApp;
+    this.dataByHostSorted = this.transformAppDataToHost(
+      _dataByApp,
+      _numSortedRegToReturn
+    );
+  }
+
+  private transformAppDataToHost(
+    dataByApp: ByAppDataType[],
+    numSortedRegToReturn: number
+  ): ByHostDataType {
+    let resultDataByHost: ByHostDataType = {};
+    for (let dataAppItem of dataByApp) {
+      //recorre todas las app.
+      for (let host of dataAppItem.host) {
+        //Recorre los host de cada app
+        if (!resultDataByHost[host]) {
+          resultDataByHost[host] = { appsSorted: [], apps: [] };
+        } else {
+          //Ya hay applicaciones ordenadas en el host
+          let sortedLenght = resultDataByHost[host].appsSorted.length;
+          if (
+            sortedLenght === numSortedRegToReturn &&
+            resultDataByHost[host].appsSorted[sortedLenght - 1].apdex >
+              dataAppItem.apdex
+          ) {
+            resultDataByHost[host].apps.push(dataAppItem);
+            continue;
+          } else if (
+            resultDataByHost[host].appsSorted.length === numSortedRegToReturn &&
+            resultDataByHost[host].appsSorted[sortedLenght - 1].apdex <
+              dataAppItem.apdex
+          ) {
+            let indexToInsert = this.getIndexToInsert(
+              resultDataByHost[host].appsSorted,
+              dataAppItem,
+              "apdex"
+            );
+            resultDataByHost[host].appsSorted = this.insertDataInIndex(
+              resultDataByHost[host].appsSorted,
+              dataAppItem,
+              indexToInsert
+            ) as AppsType[];
+            let dataPop = resultDataByHost[host].appsSorted.pop();
+            if (dataPop) resultDataByHost[host].apps.push(dataPop);
+          } else {
+            let indexToInsert = this.getIndexToInsert(
+              resultDataByHost[host].appsSorted,
+              dataAppItem,
+              "apdex"
+            );
+            resultDataByHost[host].appsSorted = this.insertDataInIndex(
+              resultDataByHost[host].appsSorted,
+              dataAppItem,
+              indexToInsert
+            ) as AppsType[];
+          }
+        }
+      }
+    }
+
+    return resultDataByHost;
   }
 
   protected getIndexToInsert(
@@ -44,6 +107,10 @@ class AppsByHost {
     return left;
   }
 
+  protected insertAppHostSorted(dataByHost: ByHostDataType, hostname: string) {
+    return;
+  }
+
   private insertDataInIndex(
     dataApp: GenericAppType[],
     dataAppToInsert: GenericAppType,
@@ -54,41 +121,10 @@ class AppsByHost {
     return dataApp;
   }
 
-  public getTopAppsByHost(hostname: string): ByHostDataType {
-    let dataByHostTop25: ByHostDataType = {
-      host: hostname,
-      appsSorted: [],
-      apps: [],
-    };
-    for (let dataByAppItem of this.dataByApp) {
-      //check if app contains host passed as param
-      if (dataByAppItem.host.includes(hostname)) {
-        //If I have NUM_SORTED_REG_TO_RETURN then first check if new value is higher than mininum.
-        if (
-          dataByHostTop25.apps.length >= 25 &&
-          dataByHostTop25.apps[this.NUM_SORTED_REG_TO_RETURN - 1].apdex >
-            dataByAppItem.apdex
-        ) {
-          let { host, ...restDataByHost } = dataByAppItem;
-          dataByHostTop25.apps.push(restDataByHost);
-          continue;
-        }
-        //insert app sorted by apdex
-        let indexToInsert = this.getIndexToInsert(
-          dataByHostTop25.apps,
-          dataByAppItem,
-          "apdex"
-        );
-
-        dataByHostTop25.appsSorted = this.insertDataInIndex(
-          dataByHostTop25.appsSorted,
-          dataByAppItem,
-          indexToInsert
-        ) as AppsType[];
-      }
-    }
-
-    return dataByHostTop25;
+  public getTopAppsByHost(hostname: string): AppsType[] {
+    if (!this.dataByHostSorted[hostname]) return [];
+    let result: AppsType[] = [...this.dataByHostSorted[hostname].appsSorted];
+    return result;
   }
 }
 
