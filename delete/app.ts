@@ -1,12 +1,22 @@
-import {
-  ByAppDataType,
-  ByHostDataType,
-  GenericAppType,
-  AppsType,
-} from "./utils.d";
+const dataIn = require("./data.json");
+
+export type ByAppDataType = {
+  name: string;
+  contributors?: string[];
+  version?: number;
+  apdex: number;
+  host: string[];
+};
+
+export type ByHostDataType = {
+  [key: string]: { appsSorted: AppsType[]; apps: AppsType[] };
+};
+
+export type AppsType = Omit<ByAppDataType, "host">;
+export type GenericAppType = { [key: string]: string | number | string[] };
 
 class AppsByHost {
-  private dataByHostSorted: ByHostDataType;
+  public dataByHostSorted: ByHostDataType;
   private numSortedRegToReturn = 25;
 
   constructor(_dataByApp: ByAppDataType[], _numSortedRegToReturn: number) {
@@ -17,7 +27,7 @@ class AppsByHost {
     );
   }
 
-  private transformAppDataToHost(
+  public transformAppDataToHost(
     dataByApp: ByAppDataType[],
     numSortedRegToReturn: number
   ): ByHostDataType {
@@ -39,7 +49,7 @@ class AppsByHost {
     return resultDataByHost;
   }
 
-  protected getIndexToInsert(
+  public getIndexToInsert(
     dataApp: GenericAppType[], //TODO: Esto hay que ponerlo en una variable aparte.
     dataAppToInsert: GenericAppType, //Si pongo tipos estaría acoplado.
     variableToSort: string = "apdex"
@@ -66,7 +76,7 @@ class AppsByHost {
     return left;
   }
 
-  protected insertAppHostSorted(
+  public insertAppHostSorted(
     dataByHost: ByHostDataType,
     dataToInsert: AppsType,
     hostname: string,
@@ -113,10 +123,11 @@ class AppsByHost {
         ) as AppsType[];
       }
     }
+
     return dataByHost;
   }
 
-  private insertDataInIndex(
+  public insertDataInIndex(
     dataApp: GenericAppType[],
     dataAppToInsert: GenericAppType,
     index: number
@@ -180,3 +191,29 @@ class AppsByHost {
     }
   }
 }
+
+const showData = (data: any, print = true) => {
+  if (!print) return;
+  console.log(JSON.stringify(data));
+};
+
+let appByHost = new AppsByHost(dataIn.data, 2);
+showData(appByHost.dataByHostSorted.host1);
+appByHost.removeAppFromHosts("app2", "host1");
+showData(appByHost.dataByHostSorted.host1);
+appByHost.removeAppFromHosts("app4", "host1");
+showData(appByHost.dataByHostSorted.host1);
+showData(appByHost.getTopAppsByHost("host1"));
+/* showData(appByHost.getTopAppsByHost("host1"));
+appByHost.addAppToHosts(
+  {
+    name: "app6",
+    apdex: 99,
+  },
+  "host1"
+);
+showData(appByHost.getTopAppsByHost("host1"));
+showData(appByHost.dataByHostSorted.host1);
+appByHost.removeAppFromHosts("app6", "host1");
+showData(appByHost.dataByHostSorted.host1);
+ */
