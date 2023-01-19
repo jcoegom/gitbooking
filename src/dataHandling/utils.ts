@@ -39,14 +39,22 @@ class AppsByHost {
     return resultDataByHost;
   }
 
+  private insertDataInIndex(
+    dataApp: GenericAppType[],
+    dataAppToInsert: GenericAppType,
+    index: number
+  ): GenericAppType[] {
+    let { host, ...restDataByHost } = dataAppToInsert;
+    dataApp.splice(index, 0, restDataByHost);
+    return dataApp;
+  }
+
   protected getIndexToInsert(
-    dataApp: GenericAppType[], //TODO: Esto hay que ponerlo en una variable aparte.
+    dataApp: GenericAppType[],
     dataAppToInsert: GenericAppType, //Si pongo tipos estaría acoplado.
     variableToSort: string = "apdex"
   ): number {
-    //It is coupled, but it is normal, its target is thinking in this type of data.
     //Is protectect. A subclass may overwrite this method.
-    //It implements Binary search.
     let left = 0;
     let right = dataApp.length - 1;
     let middle = Math.floor((left + right) / 2);
@@ -75,7 +83,6 @@ class AppsByHost {
     if (!dataByHost[hostname]) {
       dataByHost[hostname] = { appsSorted: [{ ...dataToInsert }], apps: [] };
     } else {
-      //Ya hay applicaciones ordenadas en el host
       let sortedLenght = dataByHost[hostname].appsSorted.length;
       if (
         sortedLenght === numSortedRegToReturn &&
@@ -116,16 +123,6 @@ class AppsByHost {
     return dataByHost;
   }
 
-  private insertDataInIndex(
-    dataApp: GenericAppType[],
-    dataAppToInsert: GenericAppType,
-    index: number
-  ): GenericAppType[] {
-    let { host, ...restDataByHost } = dataAppToInsert;
-    dataApp.splice(index, 0, restDataByHost);
-    return dataApp;
-  }
-
   public getTopAppsByHost(hostname: string): AppsType[] {
     if (!this.dataByHostSorted[hostname]) return [];
     let result: AppsType[] = [...this.dataByHostSorted[hostname].appsSorted];
@@ -141,6 +138,7 @@ class AppsByHost {
     );
     return this.dataByHostSorted[hostname].appsSorted;
   }
+
   public removeAppFromHosts(appName: string, hostname: string) {
     if (!this.dataByHostSorted[hostname]) return;
     let apps = [...this.dataByHostSorted[hostname].apps];
@@ -159,7 +157,6 @@ class AppsByHost {
     }
 
     if (indexToRemove !== -1) {
-      //element Found
       apps.splice(indexToRemove, 1);
       this.dataByHostSorted[hostname].apps = apps;
       return;
