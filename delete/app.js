@@ -170,7 +170,6 @@ appByHost.removeAppFromHosts("app2", "host1");
 showData(appByHost.dataByHostSorted.host1);
 appByHost.removeAppFromHosts("app4", "host1");
 showData(appByHost.dataByHostSorted.host1);
-showData(appByHost.getTopAppsByHost("host1"));
 /* showData(appByHost.getTopAppsByHost("host1"));
 appByHost.addAppToHosts(
   {
