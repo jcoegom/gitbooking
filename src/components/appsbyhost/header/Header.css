@@ -1,0 +1,19 @@
+.header-main {
+  display: grid;
+  grid-template-columns: 80% auto;
+  grid-column-gap: 30px;
+}
+
+.header-title {
+  color: #000000;
+  font-size: 35px;
+  font-family: HelveticaNeue-bold;
+  line-height: 43px;
+}
+
+.header-user {
+  color: #000000;
+  font-size: 18px;
+  font-family: HelveticaNeue;
+  line-height: 22px;
+}

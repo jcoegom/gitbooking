@@ -1,0 +1,35 @@
+.appsbyhost-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 375px;
+}
+
+.appsbyhost-card-body {
+  padding: 30px;
+}
+
+.appsbyhost-card-title {
+  color: #000000;
+  font-size: 16px;
+  font-family: HelveticaNeue-bold;
+  line-height: 1.2em;
+  margin-bottom: 23px;
+}
+
+.appsbyhost-card-container {
+  display: grid;
+  grid-template-columns: 30px auto;
+}
+
+.appsbyhost-card-item-description {
+  color: #4a4a4a;
+  font-size: 16px;
+  font-family: HelveticaNeue;
+  line-height: 1.2em;
+}
+.appsbyhost-card-item-apdex {
+  color: #4a4a4a;
+  opacity: 62%;
+  font-size: 13px;
+  font-family: HelveticaNeue-bold;
+  line-height: 1.5em;
+}
