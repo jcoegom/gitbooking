@@ -3,9 +3,9 @@ import {
   ByHostDataType,
   GenericAppType,
   AppsType,
-} from "./utils.d";
+} from "./dataHandler.d";
 
-class AppsByHost {
+export class AppsByHost {
   private dataByHostSorted: ByHostDataType;
   private numSortedRegToReturn = 25;
 
@@ -121,6 +121,10 @@ class AppsByHost {
       }
     }
     return dataByHost;
+  }
+
+  public getAllDataSorted() {
+    return this.dataByHostSorted;
   }
 
   public getTopAppsByHost(hostname: string): AppsType[] {
