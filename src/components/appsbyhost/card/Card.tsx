@@ -1,6 +1,6 @@
 import "./Card.css";
 
-type CardProps = {
+export type CardProps = {
   hostname: string;
   appNameApdexs: { name: string; apdex: number; version: number }[];
   mainClass?: string;

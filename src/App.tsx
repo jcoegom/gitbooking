@@ -1,16 +1,12 @@
 import React, { ReactElement, useEffect, useReducer, useState } from "react";
 import "./App.css";
 
-import axios from "axios";
 import Layout from "./components/common/Layout/Layout";
 import Card from "./components/appsbyhost/card/Card";
 import Header from "./components/appsbyhost/header/Header";
 import CheckBox from "./components/common/checkbox/CheckBox";
 import Body from "./components/appsbyhost/body/Body";
 import Loading from "./components/common/Loading/Loading";
-import { ByHostDataType, ByAppDataType } from "./utils/dataHandler.d";
-import { AppsByHost } from "./utils/dataHandler";
-import { handleError } from "./utils/errors";
 import AppError from "./components/common/error/AppError";
 import configApi from "./config/api.json";
 import useGetData from "./components/appsbyhost/processdata/UseGetData";

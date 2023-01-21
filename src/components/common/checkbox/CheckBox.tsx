@@ -1,6 +1,6 @@
 import "./CheckBox.css";
 
-type CheckBoxProps = {
+export type CheckBoxProps = {
   label: string;
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
