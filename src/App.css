@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "HelveticaNeue";
+  src: url("./assets/HelveticaNeue.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "HelveticaNeue-bold";
+  src: url("./assets/Helvetica Neue W01 77 Bd Cn Obl.ttf") format("truetype");
+}
+
 .body-main-list {
   margin-top: 30px;
   display: grid;
