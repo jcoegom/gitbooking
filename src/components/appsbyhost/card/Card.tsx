@@ -3,11 +3,16 @@ import "./Card.css";
 type CardProps = {
   hostname: string;
   appNameApdexs: { name: string; apdex: number }[];
+  mainClass?: string;
 };
 
-const Card = ({ hostname = "", appNameApdexs = [] }: CardProps) => {
+const Card = ({
+  hostname = "",
+  appNameApdexs = [],
+  mainClass = "",
+}: CardProps) => {
   return (
-    <div className="appsbyhost-card">
+    <div className={mainClass || "appsbyhost-card"}>
       <div className="appsbyhost-card-body">
         <div className="appsbyhost-card-title">{hostname}</div>
         <div className="appsbyhost-card-container">

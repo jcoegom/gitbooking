@@ -82,7 +82,7 @@ function App() {
           <div style={{ marginTop: "40px" }}>Error fetching data</div>
         </AppError>
 
-        <Body show={!!result} className={showAsList ? "body-main-lis" : ""}>
+        <Body show={!!result} className={showAsList ? "body-main-list" : ""}>
           {result &&
             Object.keys(result || {}).map((host) => {
               return (
@@ -90,6 +90,7 @@ function App() {
                   key={host}
                   hostname={host}
                   appNameApdexs={result ? result[host].appsSorted : []}
+                  mainClass={showAsList ? "appsbyhost-card-list" : ""}
                 />
               );
             })}
