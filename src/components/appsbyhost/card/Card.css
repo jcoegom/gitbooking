@@ -30,6 +30,9 @@
   font-family: HelveticaNeue;
   line-height: 1.2em;
 }
+.appsbyhost-card-item-description:hover {
+  cursor: pointer;
+}
 .appsbyhost-card-item-apdex {
   color: #4a4a4a;
   opacity: 62%;

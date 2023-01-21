@@ -2,14 +2,16 @@ import "./Card.css";
 
 type CardProps = {
   hostname: string;
-  appNameApdexs: { name: string; apdex: number }[];
+  appNameApdexs: { name: string; apdex: number; version: number }[];
   mainClass?: string;
+  onClick: (event: number) => void;
 };
 
 const Card = ({
   hostname = "",
   appNameApdexs = [],
   mainClass = "",
+  onClick,
 }: CardProps) => {
   return (
     <div className={mainClass || "appsbyhost-card"}>
@@ -20,7 +22,10 @@ const Card = ({
             appNameApdexs.map((item) => (
               <>
                 <div className="appsbyhost-card-item-apdex">{item.apdex}</div>
-                <div className="appsbyhost-card-item-description">
+                <div
+                  onClick={(e) => onClick(item.version)}
+                  className="appsbyhost-card-item-description"
+                >
                   {item.name}
                 </div>
               </>

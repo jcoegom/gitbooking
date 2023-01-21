@@ -91,6 +91,7 @@ function App() {
                   hostname={host}
                   appNameApdexs={result ? result[host].appsSorted : []}
                   mainClass={showAsList ? "appsbyhost-card-list" : ""}
+                  onClick={(version) => alert(version)}
                 />
               );
             })}
