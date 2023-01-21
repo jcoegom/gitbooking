@@ -1,7 +1,7 @@
 .header-main {
   display: grid;
   grid-template-columns: 80% auto;
-  grid-column-gap: 30px;
+  justify-content: center;
 }
 
 .header-title {
@@ -9,6 +9,7 @@
   font-size: 35px;
   font-family: HelveticaNeue-bold;
   line-height: 43px;
+  padding-right: 30px;
 }
 
 .header-user {
@@ -16,4 +17,8 @@
   font-size: 18px;
   font-family: HelveticaNeue;
   line-height: 22px;
+}
+
+.header-actions {
+  padding-top: 17px;
 }

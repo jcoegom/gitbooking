@@ -8,8 +8,8 @@ type HeaderProps = {
 const Header = ({ user, actions = <span></span> }: HeaderProps) => {
   return (
     <div className="header-main">
-      <div>
-        <span className="header-title">Apps by Host</span>
+      <div className="header-title">
+        Apps by Host
         <span className="header-user">{` for user ${user}`}</span>
       </div>
       <div className="header-actions">{actions}</div>

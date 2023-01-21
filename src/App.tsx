@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       <Layout>
         <Header
-          user={"myuser@mail.com"}
+          user={"averylongemailadress@companyname.com"}
           actions={
             <CheckBox
               checked={showAsList}

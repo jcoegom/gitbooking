@@ -1,5 +1,5 @@
 .appsbyhost-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
   width: 375px;
 }
 
@@ -22,6 +22,7 @@
 .appsbyhost-card-container {
   display: grid;
   grid-template-columns: 30px auto;
+  row-gap: 23px;
 }
 
 .appsbyhost-card-item-description {
