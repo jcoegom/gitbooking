@@ -13,7 +13,6 @@ const Card = ({
   mainClass = "",
   onClick,
 }: CardProps) => {
-  console.log("+++++++++++", appNameApdexs);
   return (
     <div
       data-testId="appsbyhost-card"

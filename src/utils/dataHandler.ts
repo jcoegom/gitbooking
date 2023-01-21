@@ -113,12 +113,7 @@ export class AppsByHost {
           dataToInsert,
           "apdex"
         );
-        if (dataByHost[hostname].appsSorted.length === numSortedRegToReturn) {
-          console.log(
-            "dataByHost.appssorted.lenght",
-            dataByHost[hostname].appsSorted.length
-          );
-        }
+
         dataByHost[hostname].appsSorted = this.insertDataInIndex(
           dataByHost[hostname].appsSorted,
           dataToInsert,
