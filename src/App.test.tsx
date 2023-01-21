@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import useGetData from "./components/appsbyhost/processdata/UseGetData";
 jest.mock("./components/appsbyhost/processdata/UseGetData");
@@ -110,5 +110,36 @@ describe("App. Testing result data received", () => {
     expect(card?.textContent).toBe("80");
     const name = getByTestId("appsbyhost-card-item-description");
     expect(name?.textContent).toBe("app1");
+  });
+
+  it("Test if checkbox is disabled", () => {
+    const { getByTestId } = render(<App />);
+    const input = getByTestId("checkbox-input");
+    expect(input).not.toBeChecked();
+  });
+});
+
+describe("App. Testing alert event", () => {
+  beforeEach(() => {
+    (useGetData as jest.Mock).mockImplementation(() => {
+      return [
+        false,
+        null,
+        { host1: { appsSorted: [{ apdex: 80, name: "app1", version: 1 }] } },
+      ];
+    });
+
+    jest.spyOn(window, "alert").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    (window.alert as any).mockRestore();
+  });
+
+  it("Test if inital class contains two columns", () => {
+    const { getByTestId } = render(<App />);
+    const description = getByTestId("appsbyhost-card-item-description");
+    fireEvent.click(description);
+    expect(window.alert).toHaveBeenCalledWith("Version: 1");
   });
 });

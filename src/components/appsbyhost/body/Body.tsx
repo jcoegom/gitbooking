@@ -9,7 +9,14 @@ type BodyProps = {
 const Body: React.FC<BodyProps> = ({ children, className = "", show }) => {
   return (
     <>
-      {show ? <div className={className || "body-main"}>{children}</div> : null}
+      {show ? (
+        <div
+          data-testId="appsbyhost-body-main"
+          className={className || "body-main"}
+        >
+          {children}
+        </div>
+      ) : null}
     </>
   );
 };

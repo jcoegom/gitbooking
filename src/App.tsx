@@ -19,8 +19,6 @@ function App() {
     setShowList((prevShowList) => !prevShowList);
   };
 
-  console.log("****************", result ? result : "");
-
   return (
     <div className="App">
       <Layout>
