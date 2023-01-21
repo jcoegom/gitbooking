@@ -24,10 +24,12 @@ const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
 
   useEffect(() => {
     setQueryState({ load: true, error: null, result: null });
+
     axios
       .get(url)
       .then((result) => {
-        let appsByHost = new AppsByHost(result.data, 5);
+        debugger;
+        let appsByHost = new AppsByHost(result.data.data, 5);
         setQueryState({
           load: false,
           error: null,
@@ -65,7 +67,10 @@ function App() {
         />
 
         <Loading show={load}>
-          <div style={{ marginTop: "40px" }}>Please, wait only a moment! </div>
+          <div style={{ marginTop: "40px" }}>
+            Loading... <br />
+            Please, wait only a moment!
+          </div>
         </Loading>
 
         <AppError show={!!error}>

@@ -4,16 +4,7 @@ type LoadingProps = {
 };
 
 const Loading: React.FC<LoadingProps> = ({ children, show }) => {
-  return (
-    <>
-      {show ? (
-        <div>
-          LOADING.....
-          {children}
-        </div>
-      ) : null}
-    </>
-  );
+  return <>{show ? <div>{children}</div> : null}</>;
 };
 
 export default Loading;
