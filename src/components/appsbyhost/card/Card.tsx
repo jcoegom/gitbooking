@@ -4,7 +4,7 @@ type CardProps = {
   hostname: string;
   appNameApdexs: { name: string; apdex: number; version: number }[];
   mainClass?: string;
-  onClick: (event: number) => void;
+  onClick: (version: number) => void;
 };
 
 const Card = ({
