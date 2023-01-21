@@ -14,17 +14,26 @@ const Card = ({
   onClick,
 }: CardProps) => {
   return (
-    <div className={mainClass || "appsbyhost-card"}>
+    <div
+      data-testId="appsbyhost-card"
+      className={mainClass || "appsbyhost-card"}
+    >
       <div className="appsbyhost-card-body">
         <div className="appsbyhost-card-title">{hostname}</div>
         <div className="appsbyhost-card-container">
           {appNameApdexs &&
             appNameApdexs.map((item) => (
               <>
-                <div className="appsbyhost-card-item-apdex">{item.apdex}</div>
+                <div
+                  data-testId="appsbyhost-card-item-apdex"
+                  className="appsbyhost-card-item-apdex"
+                >
+                  {item.apdex}
+                </div>
                 <div
                   onClick={(e) => onClick(item.version)}
                   className="appsbyhost-card-item-description"
+                  data-testId="appsbyhost-card-item-description"
                 >
                   {item.name}
                 </div>
