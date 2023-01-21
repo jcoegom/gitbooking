@@ -12,14 +12,17 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   onChange,
 }) => {
   return (
-    <div className="checkbox-container">
+    <div data-testId="checkbox-container" className="checkbox-container">
       <input
+        data-testId="checkbox-input"
         type="checkbox"
         id={`checkbox-${label}`}
         checked={checked}
         onChange={onChange}
       />
-      <label htmlFor={`checkbox-${label}`}>{label}</label>
+      <label data-testId="checkbox-label" htmlFor={`checkbox-${label}`}>
+        {label}
+      </label>
     </div>
   );
 };

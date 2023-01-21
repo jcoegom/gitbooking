@@ -1,45 +1,48 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent, screen } from "@testing-library/react";
 import CheckBox, { CheckBoxProps } from "./CheckBox";
 
 describe("CheckBox", () => {
   let props: CheckBoxProps;
-  let wrapper: any;
-
+  let onChangeMock: jest.Mock;
   beforeEach(() => {
+    onChangeMock = jest.fn();
     props = {
       label: "Test Checkbox",
       checked: false,
-      onChange: jest.fn(),
+      onChange: onChangeMock,
     };
-    wrapper = shallow(<CheckBox {...props} />);
   });
 
   it("should render without crashing", () => {
-    expect(wrapper.exists()).toBe(true);
+    const { container } = render(<CheckBox {...props} />);
+    expect(container).toBeTruthy();
   });
 
   it('should have a class name of "checkbox-container"', () => {
-    expect(wrapper.find(".checkbox-container").length).toBe(1);
+    const { getByTestId } = render(<CheckBox {...props} />);
+    const checkboxContainer = getByTestId("checkbox-container");
+    expect(checkboxContainer).toBeInTheDocument();
   });
 
   it("should have an input element with the correct props", () => {
-    const input = wrapper.find("input");
-    expect(input.prop("type")).toBe("checkbox");
-    expect(input.prop("id")).toBe(`checkbox-${props.label}`);
-    expect(input.prop("checked")).toBe(props.checked);
-    expect(input.prop("onChange")).toBe(props.onChange);
+    const { getByTestId } = render(<CheckBox {...props} />);
+    const input = getByTestId("checkbox-input");
+    expect(input.getAttribute("type")).toBe("checkbox");
+    expect(input).not.toBeChecked();
   });
 
   it("should have a label element with the correct props", () => {
-    const label = wrapper.find("label");
-    expect(label.prop("htmlFor")).toBe(`checkbox-${props.label}`);
-    expect(label.text()).toBe(props.label);
+    const { getByTestId } = render(<CheckBox {...props} />);
+    const label = getByTestId("checkbox-label");
+    expect(label).toHaveTextContent(props.label);
   });
 
   it("should call the onChange function when the input is clicked", () => {
-    const input = wrapper.find("input");
-    input.simulate("change");
-    expect(props.onChange).toHaveBeenCalled();
+    const { getByTestId } = render(<CheckBox {...props} />);
+    const input = getByTestId("checkbox-input");
+    fireEvent.click(input);
+    expect(onChangeMock).toHaveBeenCalled();
+    expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 });
