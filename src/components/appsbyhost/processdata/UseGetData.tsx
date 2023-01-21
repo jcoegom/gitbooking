@@ -36,7 +36,7 @@ const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
     //TODO: Abort query
   }, []);
 
-  return [queryState.load, queryState.error, queryState.result];
+  return [queryState?.load, queryState?.error, queryState?.result];
 };
 
 export default useGetData;

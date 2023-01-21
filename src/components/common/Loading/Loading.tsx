@@ -4,7 +4,7 @@ type LoadingProps = {
 };
 
 const Loading: React.FC<LoadingProps> = ({ children, show }) => {
-  return <>{show ? <div>{children}</div> : null}</>;
+  return <>{show ? <div data-testId="loading-main">{children}</div> : null}</>;
 };
 
 export default Loading;

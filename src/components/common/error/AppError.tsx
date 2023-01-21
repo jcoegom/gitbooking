@@ -4,7 +4,7 @@ type ErrorProps = {
 };
 
 const AppError: React.FC<ErrorProps> = ({ children, show }) => {
-  return <>{show ? <div>{children}</div> : null}</>;
+  return <>{show ? <div data-testId="error-main">{children}</div> : null}</>;
 };
 
 export default AppError;
