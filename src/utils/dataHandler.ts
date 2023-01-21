@@ -86,7 +86,7 @@ export class AppsByHost {
       let sortedLenght = dataByHost[hostname].appsSorted.length;
       if (
         sortedLenght === numSortedRegToReturn &&
-        dataByHost[hostname].appsSorted[sortedLenght - 1].apdex >
+        dataByHost[hostname].appsSorted[sortedLenght - 1].apdex >=
           dataToInsert.apdex
       ) {
         dataByHost[hostname].apps.push(dataToInsert);
@@ -113,6 +113,12 @@ export class AppsByHost {
           dataToInsert,
           "apdex"
         );
+        if (dataByHost[hostname].appsSorted.length === numSortedRegToReturn) {
+          console.log(
+            "dataByHost.appssorted.lenght",
+            dataByHost[hostname].appsSorted.length
+          );
+        }
         dataByHost[hostname].appsSorted = this.insertDataInIndex(
           dataByHost[hostname].appsSorted,
           dataToInsert,

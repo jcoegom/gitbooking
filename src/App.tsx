@@ -28,7 +28,7 @@ const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
     axios
       .get(url)
       .then((result) => {
-        debugger;
+        if (!result?.data?.data) return;
         let appsByHost = new AppsByHost(result.data.data, 5);
         setQueryState({
           load: false,
@@ -51,6 +51,11 @@ const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
 
 function App() {
   const [load, error, result] = useGetData(configApi.url);
+  const [showAsList, setShowList] = useState<boolean>(false);
+
+  const onChangeCheck = (eevent: React.ChangeEvent<HTMLInputElement>) => {
+    setShowList((prevShowList) => !prevShowList);
+  };
 
   return (
     <div className="App">
@@ -59,9 +64,9 @@ function App() {
           user={"myuser@mail.com"}
           actions={
             <CheckBox
-              checked={false}
+              checked={showAsList}
               label={"Show as list"}
-              onChange={() => {}}
+              onChange={onChangeCheck}
             />
           }
         />
@@ -77,19 +82,17 @@ function App() {
           <div style={{ marginTop: "40px" }}>Error fetching data</div>
         </AppError>
 
-        <Body show={!!result}>
-          <Card
-            hostname="hola"
-            appNameApdexs={[
-              { name: "name oflkña lkd añld ald añld añldñ", apdex: 99 },
-            ]}
-          />
-          <Card
-            hostname="hola"
-            appNameApdexs={[
-              { name: "name oflkña lkd añld ald añld añldñ", apdex: 99 },
-            ]}
-          />
+        <Body show={!!result} className={showAsList ? "body-main-lis" : ""}>
+          {result &&
+            Object.keys(result || {}).map((host) => {
+              return (
+                <Card
+                  key={host}
+                  hostname={host}
+                  appNameApdexs={result ? result[host].appsSorted : []}
+                />
+              );
+            })}
         </Body>
       </Layout>
     </div>
