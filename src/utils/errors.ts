@@ -4,5 +4,5 @@ export const handleError = (error: unknown) => {
     console.log(error.message);
     return;
   }
-  console.log(JSON.stringify(error)); //TODO: Could appear circular referencia. It is an example
+  console.log(JSON.stringify(error)); //TODO: Could appear circular reference. It is an example
 };

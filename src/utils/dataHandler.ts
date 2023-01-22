@@ -23,9 +23,7 @@ export class AppsByHost {
   ): ByHostDataType {
     let resultDataByHost: ByHostDataType = {};
     for (let dataAppItem of dataByApp) {
-      //recorre todas las app.
       for (let hostname of dataAppItem.host) {
-        //Recorre los host de cada app
         let { host, ...dataAppItemToInsert } = dataAppItem;
         resultDataByHost = this.insertAppHostSorted(
           resultDataByHost,
@@ -51,7 +49,7 @@ export class AppsByHost {
 
   protected getIndexToInsert(
     dataApp: GenericAppType[],
-    dataAppToInsert: GenericAppType, //Si pongo tipos estaría acoplado.
+    dataAppToInsert: GenericAppType,
     variableToSort: string = "apdex"
   ): number {
     //Is protectect. A subclass may overwrite this method.

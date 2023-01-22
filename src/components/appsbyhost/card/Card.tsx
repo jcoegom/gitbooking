@@ -7,12 +7,12 @@ export type CardProps = {
   onClick: (version: number) => void;
 };
 
-const Card = ({
+const Card: React.FC<CardProps> = ({
   hostname = "",
   appNameApdexs = [],
   mainClass = "",
   onClick,
-}: CardProps) => {
+}) => {
   return (
     <div
       data-testId="appsbyhost-card"

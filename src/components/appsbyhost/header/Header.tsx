@@ -5,7 +5,7 @@ type HeaderProps = {
   actions: React.ReactNode;
 };
 
-const Header = ({ user, actions = <span></span> }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ user, actions = <span></span> }) => {
   return (
     <div className="header-main">
       <div className="header-title">
