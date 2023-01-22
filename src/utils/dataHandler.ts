@@ -158,7 +158,6 @@ export class AppsByHost {
         indexMaxValue = i;
       }
     }
-
     if (indexToRemove !== -1) {
       apps.splice(indexToRemove, 1);
       this.dataByHostSorted[hostname].apps = apps;
