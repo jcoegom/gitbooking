@@ -6,7 +6,6 @@ import { handleError } from "../../../utils/errors";
 
 const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
   const [queryState, setQueryState] = useState<{
-    //TODO: UseReducer
     load: boolean;
     error: unknown | null;
     result: ByHostDataType | null;
@@ -34,7 +33,7 @@ const useGetData = (url: string): [boolean, unknown, ByHostDataType | null] => {
         setQueryState((prevQueryState) => ({ ...prevQueryState, load: false }));
       });
     //TODO: Abort query
-  }, []);
+  }, [url]);
 
   return [queryState?.load, queryState?.error, queryState?.result];
 };

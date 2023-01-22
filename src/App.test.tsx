@@ -85,13 +85,13 @@ describe("App. Testing result data received", () => {
     expect(loading).not.toBeInTheDocument();
   });
 
-  it("should render error component", () => {
+  it("should not render error component", () => {
     const { queryByTestId } = render(<App />);
     const error = queryByTestId("error-main");
     expect(error).not.toBeInTheDocument();
   });
 
-  it("should render no cards", () => {
+  it("should render one cards", () => {
     const { queryByTestId } = render(<App />);
     const card = queryByTestId("appsbyhost-card");
     expect(card).toBeInTheDocument();
@@ -136,7 +136,7 @@ describe("App. Testing alert event", () => {
     (window.alert as any).mockRestore();
   });
 
-  it("Test if inital class contains two columns", () => {
+  it("Test if alert has right data after clicking in application description", () => {
     const { getByTestId } = render(<App />);
     const description = getByTestId("appsbyhost-card-item-description");
     fireEvent.click(description);

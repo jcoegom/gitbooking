@@ -25,14 +25,14 @@ describe("CheckBox", () => {
     expect(checkboxContainer).toBeInTheDocument();
   });
 
-  it("should have an input element with the correct props", () => {
+  it("should have an input element with the correct props type", () => {
     const { getByTestId } = render(<CheckBox {...props} />);
     const input = getByTestId("checkbox-input");
     expect(input.getAttribute("type")).toBe("checkbox");
     expect(input).not.toBeChecked();
   });
 
-  it("should have a label element with the correct props", () => {
+  it("should have a label element with the correct props label", () => {
     const { getByTestId } = render(<CheckBox {...props} />);
     const label = getByTestId("checkbox-label");
     expect(label).toHaveTextContent(props.label);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 import Layout from "./components/common/Layout/Layout";
@@ -15,7 +15,7 @@ function App() {
   const [load, error, result] = useGetData(configApi.url);
   const [showAsList, setShowList] = useState<boolean>(false);
 
-  const onChangeCheck = (eevent: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeCheck = (_event: React.ChangeEvent<HTMLInputElement>) => {
     setShowList((prevShowList) => !prevShowList);
   };
 
